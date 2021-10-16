@@ -84,6 +84,11 @@ class LoginFragment : MvpAppCompatFragment(R.layout.fragment_login), LoginContra
 
     }
 
+    override fun setError(err: Throwable) {
+        Toast.makeText(requireContext(), err.printStackTrace().toString(), Toast.LENGTH_SHORT)
+            .show()
+    }
+
     private fun getErrorMsgByCode(error: LoginContract.Error): String {
         return when (error) {
             LoginContract.Error.LOGIN -> getString(R.string.login_error)

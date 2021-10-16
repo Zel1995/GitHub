@@ -4,13 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addNewUser(userEntity: UserEntity):Long
+    fun addNewUser(userEntity: UserEntity): Single<Long>
+
     @Query("SELECT * FROM userentity")
-    suspend fun getAllUsers():List<UserEntity?>
+    fun getAllUsers(): Flowable<List<UserEntity?>>
+
     @Query("SELECT * FROM userentity WHERE login == :login")
-    suspend fun findByLogin(login:String):UserEntity?
+    fun findByLogin(login: String): Maybe<UserEntity>
 }
