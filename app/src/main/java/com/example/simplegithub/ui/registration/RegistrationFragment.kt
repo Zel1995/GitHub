@@ -19,9 +19,10 @@ class RegistrationFragment : MvpAppCompatFragment(R.layout.fragment_registration
     lateinit var presenterMoxy: RegistrationContract.Presenter
     private val presenter by moxyPresenter { presenterMoxy }
     lateinit var viewBinding: FragmentRegistrationBinding
-    override fun setError() {
-        Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
+    override fun setError(err:Throwable) {
+        Toast.makeText(requireContext(), err.message, Toast.LENGTH_SHORT).show()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,20 +53,6 @@ class RegistrationFragment : MvpAppCompatFragment(R.layout.fragment_registration
 
     }
 
-    override fun completeRegistration(userId: Long) {
-        clearInputs()
-        if (userId == -1L) {
-            Snackbar.make(
-                viewBinding.root,
-                getString(R.string.login_is_exist),
-                Snackbar.LENGTH_SHORT
-            ).show()
-        } else {
-            Snackbar.make(viewBinding.root, getString(R.string.create_new_acc), Snackbar.LENGTH_SHORT)
-                .show()
-        }
-    }
-
     private fun clearInputs() {
         with(viewBinding) {
             regLogin.setText("")
@@ -74,5 +61,18 @@ class RegistrationFragment : MvpAppCompatFragment(R.layout.fragment_registration
         }
     }
 
+    override fun setRegistrationSuccess() {
+        clearInputs()
+        Snackbar.make(viewBinding.root, getString(R.string.create_new_acc), Snackbar.LENGTH_SHORT)
+            .show()
+    }
 
+    override fun setRegistrationConflict() {
+        clearInputs()
+        Snackbar.make(
+            viewBinding.root,
+            getString(R.string.login_is_exist),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
 }

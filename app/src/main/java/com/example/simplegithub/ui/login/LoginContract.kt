@@ -16,6 +16,8 @@ abstract class LoginContract {
         fun setState(state: ViewBehavior)
         @Skip
         fun setAuthError(error:Error)
+        @Skip
+        fun setError(err:Throwable)
     }
 
     abstract class Presenter: MvpPresenter<View>() {

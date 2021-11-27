@@ -8,9 +8,11 @@ import moxy.viewstate.strategy.alias.Skip
 class RegistrationContract {
     interface View :MvpView{
         @Skip
-        fun setError()
+        fun setError(err:Throwable)
         @Skip
-        fun completeRegistration(userId:Long)
+        fun setRegistrationSuccess()
+        @Skip
+        fun setRegistrationConflict()
     }
 
     abstract class Presenter: MvpPresenter<View>() {
